@@ -1,0 +1,26 @@
+/* Stili Personalizzati CUSY */
+
+/* Nasconde la scrollbar mantenendo la funzionalità di scorrimento */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animazione di oscillazione leggera per le foto sul filo */
+@keyframes swing {
+  0% { transform: rotate(1deg); }
+  50% { transform: rotate(-2deg); }
+  100% { transform: rotate(1deg); }
+}
+
+.gallery-card:hover {
+  animation: swing 2s ease-in-out infinite;
+}
+
+/* Smooth scroll per i link ancorati */
+html {
+  scroll-behavior: smooth;
+}

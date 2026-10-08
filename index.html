@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CUSY | Sartoria Artigianale a Rosolini - Cucito a Mano con Cura</title>
+  <meta name="description" content="Sartoria artigianale a Rosolini (Siracusa). Capi per bambini, corredini nascita, abiti premaman e bomboniere fatte a mano con cura e tradizione.">
+  
+  <!-- Open Graph per Social & WhatsApp -->
+  <meta property="og:title" content="CUSY | Sartoria Artigianale a Rosolini">
+  <meta property="og:description" content="Pezzi unici fatti a mano con cura. Corredini, abiti bambini, bomboniere e lavorazioni su misura.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nextframe-mgmt.github.io/CUSY/">
+
+  <!-- Google Fonts: Fraunces & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            latte: '#FBF8F4',
+            cipria: '#F1D9D6',
+            salvia: {
+              DEFAULT: '#B3C2AB',
+              dark: '#55684F',
+            },
+            dorato: '#C9A66B',
+            inchiostro: '#3B3330',
+          },
+          fontFamily: {
+            serif: ['Fraunces', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- GSAP & ScrollTrigger da CDN per Animazioni Fluidi -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Foglio di Stile Personalizzato -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Schema.org per LocalBusiness SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DryCleanerOrLaundry",
+    "name": "CUSY Sartoria Artigianale",
+    "description": "Sartoria e cucito artigianale su misura per bambini, nascita e cerimonie.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Rosolini",
+      "addressRegion": "SR",
+      "addressCountry": "IT"
+    },
+    "url": "https://nextframe-mgmt.github.io/CUSY/"
+  }
+  </script>
+</head>
+<body class="bg-latte text-inchiostro font-sans antialiased overflow-x-hidden relative selection:bg-cipria selection:text-inchiostro">
+
+  <!-- INTRO ANIMATA (Ricamo Nome CUSY) -->
+  <div id="intro-overlay" class="fixed inset-0 bg-latte z-50 flex flex-col items-center justify-center transition-opacity duration-700">
+    <div class="relative w-72 h-36 flex items-center justify-center">
+      <svg class="w-full h-full" viewBox="0 0 300 120" fill="none" stroke="#C9A66B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path id="cusy-stitch-path" d="M 30,60 C 30,20 80,20 80,60 C 80,100 30,100 30,60 M 100,30 L 100,80 C 100,100 150,100 150,80 L 150,30 M 170,80 C 170,100 230,100 230,60 C 230,20 170,20 170,40 C 170,60 230,60 230,80 M 250,30 L 270,60 L 290,30 M 270,60 L 270,95" stroke-dasharray="8 6" />
+      </svg>
+    </div>
+    <p class="font-serif italic text-salvia-dark text-sm mt-4 tracking-widest uppercase">Cucito a mano, con cura</p>
+    <button id="skip-intro" class="mt-6 text-xs text-inchiostro/60 underline hover:text-salvia-dark transition">Salta introduzione</button>
+  </div>
+
+  <!-- CURSORE PERSONALIZZATO AD AGO (Desktop Only) -->
+  <div id="custom-cursor" class="pointer-events-none fixed top-0 left-0 z-40 hidden md:block transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-75">
+    <svg class="w-8 h-8 text-dorato filter drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2L19 21L12 17L5 21L12 2Z" />
+      <circle cx="12" cy="6" r="1.5" fill="#C9A66B" />
+    </svg>
+  </div>
+
+  <!-- TRACCIATO FILO SVG GUIDATO DALLO SCROLL -->
+  <div class="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+    <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 1000" fill="none">
+      <path id="scroll-thread" d="M 50,0 Q 80,100 50,200 T 50,400 T 50,600 T 50,800 T 50,1000" stroke="#C9A66B" stroke-width="1.2" stroke-dasharray="6 4" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-30 bg-latte/80 backdrop-blur-md border-b border-cipria/40 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="font-serif text-2xl font-bold tracking-tight text-inchiostro">CUSY<span class="text-dorato">.</span></a>
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-inchiostro/80">
+        <a href="#chi-siamo" class="hover:text-salvia-dark transition">Chi Siamo</a>
+        <a href="#servizi" class="hover:text-salvia-dark transition">Servizi</a>
+        <a href="#galleria" class="hover:text-salvia-dark transition">Galleria</a>
+        <a href="#come-lavoriamo" class="hover:text-salvia-dark transition">Come Lavoriamo</a>
+        <a href="#contatti" class="px-4 py-2 bg-salvia-dark text-latte rounded-full hover:bg-inchiostro transition duration-300 shadow-sm">Scrivimi su WhatsApp</a>
+      </nav>
+      <a href="https://wa.me/393331234567" target="_blank" class="md:hidden px-4 py-2 text-xs font-semibold bg-salvia-dark text-latte rounded-full">WhatsApp</a>
+    </div>
+  </header>
+
+  <!-- 1. HERO SECTION -->
+  <section class="relative min-h-[85vh] flex items-center justify-center px-6 py-12 overflow-hidden">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-20">
+      <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+        <span class="inline-block px-3 py-1 bg-cipria/60 text-salvia-dark text-xs font-medium tracking-wide rounded-full">Sartoria Artigianale a Rosolini</span>
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-inchiostro leading-tight">
+          Cucito a mano, con cura. <br>
+          <span class="font-normal italic text-salvia-dark">Pezzi unici, pensati per te.</span>
+        </h1>
+        <p class="text-base sm:text-lg text-inchiostro/80 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+          Ogni punto racconta una storia. Dalla delicatezza di un corredino alla magia di una bomboniera, creiamo cose belle che durano nel tempo.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+          <a href="https://wa.me/393331234567" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-salvia-dark text-latte rounded-full font-medium hover:bg-inchiostro transition duration-300 shadow-md text-center">
+            Scrivici su WhatsApp
+          </a>
+          <a href="#galleria" class="w-full sm:w-auto px-8 py-4 bg-cipria/50 text-inchiostro rounded-full font-medium hover:bg-cipria transition duration-300 text-center">
+            Guarda i lavori
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Video / Immagine Mascherata -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative w-64 h-80 sm:w-72 sm:h-96 rounded-t-full border-4 border-cipria overflow-hidden shadow-xl transform rotate-1 hover:rotate-0 transition duration-500">
+          <video class="w-full h-full object-cover" autoplay loop muted playsinline poster="media/hero-poster.jpg">
+            <source src="media/hero-loop.mp4" type="video/mp4">
+            <img src="media/chi-siamo-1.jpg" alt="CUSY Cucito Artigianale" class="w-full h-full object-cover">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. CHI SIAMO -->
+  <section id="chi-siamo" class="py-20 px-6 bg-latte relative z-20">
+    <div class="max-w-4xl mx-auto space-y-12">
+      <div class="text-center space-y-3">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-inchiostro">La storia di un filo e d'un ago</h2>
+        <div class="w-12 h-0.5 bg-dorato mx-auto"></div>
+      </div>
+
+      <div class="prose prose-lg mx-auto text-inchiostro/80 leading-relaxed font-sans text-center sm:text-left space-y-6">
+        <p>
+          Tutto è iniziato da bambina, con un filo, un ago e tanta curiosità. Quella passione, coltivata con pazienza negli anni, è diventata il mio mestiere.
+        </p>
+        <p>
+          Da Rosolini realizzo capi e piccoli oggetti fatti a mano, uno alla volta, con la calma che richiede il lavoro ben fatto. Ogni pezzo è unico e nasce dai tuoi desideri: scegli tessuti, colori e dettagli, e io li trasformo in qualcosa che racconta te e la tua famiglia.
+        </p>
+      </div>
+
+      <!-- Griglia Immagini Tattili -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6">
+        <div class="rounded-2xl overflow-hidden border border-cipria shadow-sm hover:shadow-md transition group">
+          <img src="media/chi-siamo-1.jpg" alt="Mani al lavoro col cucito" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="rounded-2xl overflow-hidden border border-cipria shadow-sm hover:shadow-md transition group">
+          <img src="media/chi-siamo-2.jpg" alt="Dettaglio tessuti e filati" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="rounded-2xl overflow-hidden border border-cipria shadow-sm hover:shadow-md transition group">
+          <img src="media/chi-siamo-3.jpg" alt="Sartoria artigianale Rosolini" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SERVIZI -->
+  <section id="servizi" class="py-20 px-6 bg-cipria/20 relative z-20">
+    <div class="max-w-5xl mx-auto space-y-12">
+      <div class="text-center space-y-4">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-inchiostro">Cosa realizziamo per te</h2>
+        <p class="text-inchiostro/70 max-w-lg mx-auto">Lavoro su commissione, ascoltando ogni richiesta. Raccontami cosa immagini e lo realizzeremo insieme.</p>
+      </div>
+
+      <!-- Lista Tipografica Interattiva -->
+      <div class="space-y-4 max-w-3xl mx-auto">
+        <div class="servizio-item border-b border-cipria py-6 flex items-center justify-between cursor-pointer group" data-image="media/servizio-bambini.jpg">
+          <h3 class="font-serif text-2xl sm:text-3xl font-medium text-inchiostro group-hover:text-salvia-dark transition">Abiti e capi per bambini</h3>
+          <span class="text-xs font-mono text-dorato uppercase tracking-wider">01 / Su misura</span>
+        </div>
+        <div class="servizio-item border-b border-cipria py-6 flex items-center justify-between cursor-pointer group" data-image="media/servizio-nascita.jpg">
+          <h3 class="font-serif text-2xl sm:text-3xl font-medium text-inchiostro group-hover:text-salvia-dark transition">Corredini e nascita</h3>
+          <span class="text-xs font-mono text-dorato uppercase tracking-wider">02 / Personalizzati</span>
+        </div>
+        <div class="servizio-item border-b border-cipria py-6 flex items-center justify-between cursor-pointer group" data-image="media/servizio-premaman.jpg">
+          <h3 class="font-serif text-2xl sm:text-3xl font-medium text-inchiostro group-hover:text-salvia-dark transition">Premaman & Maternità</h3>
+          <span class="text-xs font-mono text-dorato uppercase tracking-wider">03 / Comfort</span>
+        </div>
+        <div class="servizio-item border-b border-cipria py-6 flex items-center justify-between cursor-pointer group" data-image="media/servizio-bomboniere.jpg">
+          <h3 class="font-serif text-2xl sm:text-3xl font-medium text-inchiostro group-hover:text-salvia-dark transition">Bomboniere & Ricordi</h3>
+          <span class="text-xs font-mono text-dorato uppercase tracking-wider">04 / Cerimonie</span>
+        </div>
+        <div class="servizio-item border-b border-cipria py-6 flex items-center justify-between cursor-pointer group" data-image="media/servizio-riparazioni.jpg">
+          <h3 class="font-serif text-2xl sm:text-3xl font-medium text-inchiostro group-hover:text-salvia-dark transition">Riparazioni & Modifiche</h3>
+          <span class="text-xs font-mono text-dorato uppercase tracking-wider">05 / Cura del capo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. GALLERIA - IL FILO DA BUCATO -->
+  <section id="galleria" class="py-20 px-6 bg-latte relative z-20 overflow-hidden">
+    <div class="max-w-6xl mx-auto space-y-8">
+      <div class="text-center space-y-4">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-inchiostro">I nostri lavori appesi al filo</h2>
+        <p class="text-sm text-inchiostro/70">Scorri o trascina per scoprire le creazioni recenti</p>
+        
+        <!-- Filtri Categoria -->
+        <div class="flex flex-wrap justify-center gap-2 pt-2">
+          <button class="filter-btn active px-4 py-1.5 rounded-full text-xs font-medium border border-salvia-dark bg-salvia-dark text-latte transition" data-filter="all">Tutti</button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium border border-cipria bg-latte text-inchiostro hover:border-salvia-dark transition" data-filter="bambini">Bambini</button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium border border-cipria bg-latte text-inchiostro hover:border-salvia-dark transition" data-filter="nascita">Nascita</button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium border border-cipria bg-latte text-inchiostro hover:border-salvia-dark transition" data-filter="premaman">Premaman</button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium border border-cipria bg-latte text-inchiostro hover:border-salvia-dark transition" data-filter="bomboniere">Bomboniere</button>
+        </div>
+      </div>
+
+      <!-- Contenitore Filo da Bucato Draggable -->
+      <div id="clothesline-container" class="relative py-12 cursor-grab active:cursor-grabbing overflow-x-auto no-scrollbar">
+        <!-- Filo Orizzontale -->
+        <div class="absolute top-12 left-0 right-0 h-0.5 bg-dorato/60 z-0 min-w-[1200px]"></div>
+
+        <div id="clothesline-track" class="flex space-x-8 min-w-max px-8 relative z-10 pt-4">
+          <!-- Item 1 -->
+          <div class="gallery-card group relative w-64 bg-white p-3 rounded-b-xl shadow-sm border border-cipria/50 transform rotate-1 hover:rotate-0 transition duration-300" data-category="bambini">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-6 bg-dorato/80 rounded-sm shadow-xs z-20"></div>
+            <img src="media/lavoro-1.jpg" alt="Abitino bimba fatto a mano" class="w-full h-72 object-cover rounded-lg">
+            <div class="mt-3 text-center">
+              <h4 class="font-serif text-sm font-semibold text-inchiostro">Abitino in Lino</h4>
+              <p class="text-xs text-salvia-dark">Taglia 2-3 anni</p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="gallery-card group relative w-64 bg-white p-3 rounded-b-xl shadow-sm border border-cipria/50 transform -rotate-2 hover:rotate-0 transition duration-300" data-category="nascita">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-6 bg-dorato/80 rounded-sm shadow-xs z-20"></div>
+            <img src="media/lavoro-2.jpg" alt="Ghirlanda nascita Andrea" class="w-full h-72 object-cover rounded-lg">
+            <div class="mt-3 text-center">
+              <h4 class="font-serif text-sm font-semibold text-inchiostro">Ghirlanda Andrea</h4>
+              <p class="text-xs text-salvia-dark">Personalizzata con nome</p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="gallery-card group relative w-64 bg-white p-3 rounded-b-xl shadow-sm border border-cipria/50 transform rotate-2 hover:rotate-0 transition duration-300" data-category="bomboniere">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-6 bg-dorato/80 rounded-sm shadow-xs z-20"></div>
+            <img src="media/lavoro-3.jpg" alt="Casette stoffa patchwork" class="w-full h-72 object-cover rounded-lg">
+            <div class="mt-3 text-center">
+              <h4 class="font-serif text-sm font-semibold text-inchiostro">Casette Patchwork</h4>
+              <p class="text-xs text-salvia-dark">Bomboniera battesimo</p>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="gallery-card group relative w-64 bg-white p-3 rounded-b-xl shadow-sm border border-cipria/50 transform -rotate-1 hover:rotate-0 transition duration-300" data-category="nascita">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-6 bg-dorato/80 rounded-sm shadow-xs z-20"></div>
+            <img src="media/lavoro-4.jpg" alt="Culla in fettuccia intrecciata" class="w-full h-72 object-cover rounded-lg">
+            <div class="mt-3 text-center">
+              <h4 class="font-serif text-sm font-semibold text-inchiostro">Culla in Fettuccia</h4>
+              <p class="text-xs text-salvia-dark">Realizzata interamente a mano</p>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="gallery-card group relative w-64 bg-white p-3 rounded-b-xl shadow-sm border border-cipria/50 transform rotate-1 hover:rotate-0 transition duration-300" data-category="premaman">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-6 bg-dorato/80 rounded-sm shadow-xs z-20"></div>
+            <img src="media/lavoro-5.jpg" alt="Tulipani in stoffa decorativi" class="w-full h-72 object-cover rounded-lg">
+            <div class="mt-3 text-center">
+              <h4 class="font-serif text-sm font-semibold text-inchiostro">Tulipani in Stoffa</h4>
+              <p class="text-xs text-salvia-dark">Mazzo decorativo casa</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. COME LAVORIAMO -->
+  <section id="come-lavoriamo" class="py-20 px-6 bg-cipria/20 relative z-20">
+    <div class="max-w-4xl mx-auto space-y-12">
+      <div class="text-center space-y-3">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-inchiostro">Tre passi verso il tuo pezzo unico</h2>
+        <div class="w-12 h-0.5 bg-dorato mx-auto"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div class="bg-latte p-6 rounded-2xl border border-cipria space-y-3 text-center relative z-10">
+          <div class="w-10 h-10 bg-salvia/30 text-salvia-dark rounded-full flex items-center justify-center font-serif font-bold mx-auto">1</div>
+          <h3 class="font-serif font-semibold text-lg text-inchiostro">Mi racconti l'idea</h3>
+          <p class="text-xs text-inchiostro/70 leading-relaxed">Scrivimi su WhatsApp o via e-mail. Ascolto le tue esigenze e i dettagli che desideri.</p>
+        </div>
+
+        <div class="bg-latte p-6 rounded-2xl border border-cipria space-y-3 text-center relative z-10">
+          <div class="w-10 h-10 bg-salvia/30 text-salvia-dark rounded-full flex items-center justify-center font-serif font-bold mx-auto">2</div>
+          <h3 class="font-serif font-semibold text-lg text-inchiostro">Scegliamo insieme</h3>
+          <p class="text-xs text-inchiostro/70 leading-relaxed">Selezioniamo tessuti, colori, ricami e finiture per dare forma al progetto.</p>
+        </div>
+
+        <div class="bg-latte p-6 rounded-2xl border border-cipria space-y-3 text-center relative z-10">
+          <div class="w-10 h-10 bg-salvia/30 text-salvia-dark rounded-full flex items-center justify-center font-serif font-bold mx-auto">3</div>
+          <h3 class="font-serif font-semibold text-lg text-inchiostro">Cucio a mano</h3>
+          <p class="text-xs text-inchiostro/70 leading-relaxed">Con la calma del lavoro artigianale confeziono il tuo capo unico, pronto per te.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CONTATTI & FOOTER -->
+  <section id="contatti" class="py-20 px-6 bg-latte relative z-20 text-center space-y-8 border-t border-cipria/40">
+    <div class="max-w-2xl mx-auto space-y-6">
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-inchiostro">Hai un'idea in mente?</h2>
+      <p class="text-base sm:text-lg text-inchiostro/80 leading-relaxed">
+        Scrivimi o chiamami: sarò felice di ascoltare la tua idea e trasformarla in un ricordo speciale.
+      </p>
+
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://wa.me/393331234567" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-salvia-dark text-latte rounded-full font-medium hover:bg-inchiostro transition duration-300 shadow-md">
+          Scrivici su WhatsApp
+        </a>
+        <a href="mailto:info@cusy.it" class="w-full sm:w-auto px-8 py-4 bg-cipria/50 text-inchiostro rounded-full font-medium hover:bg-cipria transition duration-300">
+          info@cusy.it
+        </a>
+      </div>
+
+      <p class="text-xs text-inchiostro/60 pt-6">Rosolini (Siracusa), Sicilia — Lavorazioni su ordinazione</p>
+    </div>
+
+    <!-- Footer Minimale -->
+    <footer class="pt-12 text-xs text-inchiostro/50 border-t border-cipria/20">
+      <p>&copy; 2026 CUSY Sartoria Artigianale. Tutti i diritti riservati.</p>
+    </footer>
+  </section>
+
+  <!-- Modale Vista Ingrandita -->
+  <div id="modal-lightbox" class="fixed inset-0 bg-inchiostro/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-latte p-4 rounded-2xl max-w-lg w-full space-y-4 relative">
+      <button id="close-modal" class="absolute top-3 right-3 w-8 h-8 bg-cipria text-inchiostro rounded-full flex items-center justify-center font-bold">✕</button>
+      <img id="modal-img" src="" alt="" class="w-full h-80 object-cover rounded-lg">
+      <div class="text-center space-y-1">
+        <h3 id="modal-title" class="font-serif text-xl font-bold text-inchiostro"></h3>
+        <p id="modal-desc" class="text-sm text-salvia-dark"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
